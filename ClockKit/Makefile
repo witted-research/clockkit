@@ -12,6 +12,7 @@ PYTHON = $$(pkg-config --list-all | grep python- | sort | tail -1 | sed 's/ .*//
 OBJS = \
   ClockClient.o \
   ClockPacket.o \
+  ClockClient.o \
   ClockServer.o \
   ConfigReader.o \
   PhaseLockedClock.o \
@@ -22,6 +23,7 @@ OBJS = \
 
 EXES = \
   ckserver \
+  ckclient \
   ckphaselock \
   cktest-standalone \
 
@@ -69,6 +71,9 @@ test-remote: ckphaselock
 test-remote2: ckphaselock
 	./test2hosts.sh config-remote2.sh
 # Don't generalize this here.  Instead, manually ./test2hosts.sh config-myOtherHost.sh.
+
+ckclient: ClockClientMain.cpp $(OBJS)
+	$(CPP) $(CFLAGS) $^ $(LIBS) -o $@
 
 cktest-standalone: test-standalone.cpp $(OBJS)
 	$(CPP) $(CFLAGS) $^ $(LIBS) -o $@
